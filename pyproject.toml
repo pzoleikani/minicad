@@ -1,0 +1,6 @@
+[project]
+name = "minicad-python-starting-point"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+dependencies = ["mypy>=1.15.0", "pyside6>=6.9.0"]
