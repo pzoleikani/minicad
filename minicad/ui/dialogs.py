@@ -119,7 +119,55 @@ def create_square(shapes: list[Shape], command_stack: CommandStack) -> None:
 
 
 # TODO: Task 2 - Implement the InputRectangleDialog class and the create_rectangle function
+class InputRectangleDialog(QDialog):
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
+        super().__init__(parent)
 
+        self.x_field = QLineEdit(self)
+        self.x_field.setValidator(QIntValidator(0, 1000, self))
+
+        self.y_field = QLineEdit(self)
+        self.y_field.setValidator(QIntValidator(0, 1000, self))
+        
+        self.width_field = QLineEdit(self)
+        self.width_field.setValidator(QIntValidator(0, 1000, self))
+        
+        self.height_field = QLineEdit(self)
+        self.height_field.setValidator(QIntValidator(0, 1000, self))
+
+        buttonBox = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
+            self,
+        )
+
+        layout = QFormLayout(self)
+        layout.addRow("X", self.x_field)
+        layout.addRow("Y", self.y_field)
+        layout.addRow("Width", self.width_field)
+        layout.addRow("Height", self.height_field)
+        layout.addWidget(buttonBox)
+
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
+
+    def get_inputs(self) -> tuple[int, int, int, int]:
+        return (
+            int(self.x_field.text()),
+            int(self.y_field.text()),
+            int(self.width_field.text()),
+            int(self.height_field.text()),
+        )
+
+
+def create_rectangle(shapes: list[Shape], command_stack: CommandStack) -> None:
+    dialog = InputRectangleDialog()
+    if dialog.exec():
+        rectangle = Rectangle(
+        Point(dialog.get_inputs()[0], dialog.get_inputs()[1]),
+            dialog.get_inputs()[2], dialog.get_inputs()[3], 
+        )
+        command = CreateShapeCommand(rectangle, shapes)
+        command_stack.execute(command)
 
 class InputTriangleDialog(QDialog):
     def __init__(self, parent: Optional[QWidget] = None) -> None:
@@ -263,6 +311,7 @@ class ActionFactory:
         dialogs["Circle"] = create_circle
         dialogs["Triangle"] = create_triangle
         dialogs["Square"] = create_square
+        dialogs["Rectangle"] = create_rectangle
         dialogs["Translate"] = translate
         dialogs["Clear"] = clear
         # TODO: Task 2 & 4: add the rectangle and scale dialogs to the dictionary of this factory class
