@@ -12,6 +12,9 @@ class Rectangle(Shape):
         self._height = height
 
     # TODO: Task 4 - Implement the scale method
+    def scale(self, factor: float) -> None:
+        self._width *= factor
+        self._height *= factor
 
     def draw(self, painter: QPainter) -> None:
         rect = QRectF(
