@@ -265,6 +265,48 @@ def translate(shapes: list[Shape], command_stack: CommandStack) -> None:
 
 
 # TODO: Task 4 - Implement the ScaleShapeDialog class and the scale function
+class ScaleShapeDialog(QDialog):
+    def __init__(self, numberOfShapes: int, parent: Optional[QWidget] = None) -> None:
+        super().__init__(parent)
+
+        self.shapeNumber = QSpinBox(self)
+        self.shapeNumber.setMaximum(numberOfShapes - 1)
+        self.shapeNumber.setMinimum(0)
+
+        self.scaleFactor = QDoubleSpinBox(self)
+        self.scaleFactor.setMinimum(0.1)
+        self.scaleFactor.setMaximum(10.0)
+        self.scaleFactor.setSingleStep(0.1)
+        self.scaleFactor.setValue(1.0)
+
+        buttonBox = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
+            self,
+        )
+
+        layout = QFormLayout(self)
+        layout.addRow("shape number", self.shapeNumber)
+        layout.addRow("scale factor", self.scaleFactor)
+        layout.addWidget(buttonBox)
+
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
+
+    def get_inputs(self) -> tuple[int, float]:
+        return (self.shapeNumber.value(), self.scaleFactor.value())
+    
+def scale(shapes: list[Shape], command_stack: CommandStack) -> None:
+    if len(shapes) == 0:
+        return
+
+    dialog = ScaleShapeDialog(len(shapes))
+    if dialog.exec():
+        index, factor = dialog.get_inputs()
+        shape = shapes[index]
+        command = ScaleShapeCommand(shape, factor)
+        command_stack.execute(command)
+
+
 
 
 class ClearShapeDialog(QDialog):
@@ -315,4 +357,5 @@ class ActionFactory:
         dialogs["Translate"] = translate
         dialogs["Clear"] = clear
         # TODO: Task 2 & 4: add the rectangle and scale dialogs to the dictionary of this factory class
+        dialogs["Scale"] = scale 
         return dialogs
