@@ -11,6 +11,8 @@ class Square(Shape):
         self._side = side
 
     # TODO: Task 4 - Implement the scale method
+    def scale(self, factor: float) -> None:
+        self._side *= factor
 
     def draw(self, painter: QPainter) -> None:
         rect = QRectF(
