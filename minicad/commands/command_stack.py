@@ -7,14 +7,18 @@ class CommandStack:
         self.redoStack: list[Command] = []
 
     def execute(self, command: Command) -> None:
-        # TODO: Task 5 - Implement the command stack
         command.execute()
-        # ...
+        self.undoStack.append(command)
+        self.redoStack.clear()
 
     def undo(self) -> None:
-        # TODO: Task 5 - Implement the command stack
-        pass
+        if self.undoStack:
+            command = self.undoStack.pop()
+            command.undo()
+            self.redoStack.append(command)
 
     def redo(self) -> None:
-        # TODO: Task 5 - Implement the command stack
-        pass
+        if self.redoStack:
+            command = self.redoStack.pop()
+            command.execute()
+            self.undoStack.append(command)
