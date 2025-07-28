@@ -12,12 +12,17 @@ class Triangle(Shape):
         super().__init__(center)
         self._side = side
 
+    # TODO: Task 4 - Implement the scale method
+
+    
+    
+
     # TODO: Task 3 - Implement the drawing mechanism for a triangle
     def draw(self, painter: QPainter) -> None:
         x = self._center.x
         y = self._center.y
         side = self._side
-
+        
         h = (math.sqrt(3) / 2) * side
         half = side / 2
 
@@ -25,4 +30,4 @@ class Triangle(Shape):
         p2 = QPoint(x - half, y + (1 / 3) * h)
         p3 = QPoint(x + half, y + (1 / 3) * h)
 
-        painter.drawPolygon([p1, p2, p3])
+        painter.drawPolygon([p1, p2, p3])  
