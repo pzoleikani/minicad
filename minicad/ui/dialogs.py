@@ -353,9 +353,9 @@ class ActionFactory:
         dialogs["Circle"] = create_circle
         dialogs["Triangle"] = create_triangle
         dialogs["Square"] = create_square
-        dialogs["Rectangle"] = create_rectangle
         dialogs["Translate"] = translate
         dialogs["Clear"] = clear
         # TODO: Task 2 & 4: add the rectangle and scale dialogs to the dictionary of this factory class
+        dialogs["Rectangle"] = create_rectangle
         dialogs["Scale"] = scale 
         return dialogs
