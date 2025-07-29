@@ -30,4 +30,5 @@ class Triangle(Shape):
         p3 = QPoint(x + half, y + (1 / 3) * h)
 
         painter.drawPolygon([p1, p2, p3])
+        painter.drawText(int(x), int(y), str(self._id))
 
